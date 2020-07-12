@@ -1,10 +1,10 @@
 <?php
 namespace Money;
 
-class Dollar
-{
-    private $amount;
+require_once('src/Money.php');
 
+class Dollar extends Money
+{
     public function __construct(int $amount)
     {
         $this->amount = $amount;
@@ -14,10 +14,4 @@ class Dollar
     {
         return new Dollar($this->amount * $multiplier);
     }
-
-    public function equals(Dollar $object): bool
-    {
-        return $this->amount == $object->amount;
-    }
-
 }
