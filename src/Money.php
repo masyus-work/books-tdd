@@ -1,17 +1,20 @@
 <?php
 namespace Money;
 
-abstract class Money
+class Money
 {
     protected $amount;
     protected $currency;
-
-    abstract public function times(int $multiplier): Money;
 
     public function __construct(int $amount, string $currency)
     {
         $this->amount   = $amount;
         $this->currency = $currency;
+    }
+
+    public function times(int $multiplier): self
+    {
+        return new static($this->amount * $multiplier, $this->currency);
     }
 
     public function currency(): string
@@ -21,7 +24,12 @@ abstract class Money
 
     public function equals(Money $object): bool
     {
-        return $this->amount == $object->amount && get_class($this) === get_class($object);
+        return $this->amount == $object->amount && $this->currency() == $object->currency();
+    }
+
+    public function toString(): string
+    {
+        return $this->amount + ' ' + $this->currency;
     }
 
     public static function dollar(int $amount): Money
