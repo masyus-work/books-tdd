@@ -2,6 +2,7 @@
 namespace Money;
 require_once('src/Expression.php');
 require_once('src/Sum.php');
+require_once('src/Bank.php');
 
 class Money implements Expression
 {
@@ -54,8 +55,9 @@ class Money implements Expression
         return new Sum($this, $addend);
     }
 
-    public function reduce(string $to): Money
+    public function reduce(Bank $bank, string $to): Money
     {
-        return $this;
+        $rate = $bank->rate($this->currency(), $to);
+        return new Money($this->amount() / $rate, $to);
     }
 }
