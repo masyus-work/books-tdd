@@ -1,6 +1,7 @@
 <?php
 namespace Money;
 require_once('src/Expression.php');
+require_once('src/Sum.php');
 
 class Money implements Expression
 {
@@ -21,6 +22,11 @@ class Money implements Expression
     public function currency(): string
     {
         return $this->currency;
+    }
+
+    public function amount(): int
+    {
+        return $this->amount;
     }
 
     public function equals(Money $object): bool
@@ -45,6 +51,11 @@ class Money implements Expression
 
     public function plus(Money $addend): Expression
     {
-        return new Money($this->amount + $addend->amount, $this->currency());
+        return new Sum($this, $addend);
+    }
+
+    public function reduce(string $to): Money
+    {
+        return $this;
     }
 }
